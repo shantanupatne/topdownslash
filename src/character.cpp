@@ -1,4 +1,4 @@
-#include "character.h"
+#include "includes/character.h"
 
 Character::Character(int win_w, int win_h): win_w(win_w), win_h(win_h)
 {
@@ -58,4 +58,9 @@ void Character::tick(float deltatime)
     Rectangle source{0.f, 0.f, weapon.width * rightLeft, static_cast<float>(weapon.height)};
     Rectangle dest{getScreenPos().x + offset.x, getScreenPos().y + offset.y, weapon.width * scale, weapon.height * scale};
     DrawTexturePro(weapon, source, dest, origin, rotation, WHITE);
+}
+
+void Character::takeDamage(float damage) {
+    health -= damage;
+    if (health <= 0.f) setAlive(false);
 }

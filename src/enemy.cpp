@@ -1,6 +1,6 @@
-#include "enemy.h"
+#include "includes/enemy.h"
 
-Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex)
+Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex, Character* character)
 {
     worldPos = pos;
     texture = idle_tex;
@@ -9,14 +9,20 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex)
     width = texture.width / maxFrames;
     height = texture.height;
     speed = 3.5f;
+    target = character;
 }
 
 void Enemy::tick(float deltatime)
 {
-    if (!getAlive()) return;
+    if (!getAlive())
+        return;
     // get target dimension
     velocity = target->getScreenPos() - getScreenPos();
+    if (Vector2Length(velocity) < radius) velocity = {};
     BaseCharacter::tick(deltatime);
+
+    if (CheckCollisionRecs(getCollisionRec(), target->getCollisionRec()))
+        target->takeDamage(damagePerSec * deltatime);
 }
 
 Vector2 Enemy::getScreenPos()
