@@ -24,12 +24,10 @@ int main()
         Prop{Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png")},
         Prop{Vector2{200.f, 600.f}, LoadTexture("nature_tileset/Log.png")}};
 
-
     Enemy goblin{
-        Vector2{}, 
-        LoadTexture("characters/goblin_idle_spritesheet.png"), 
-        LoadTexture("characters/goblin_run_spritesheet.png")
-    };
+        Vector2{},
+        LoadTexture("characters/goblin_idle_spritesheet.png"),
+        LoadTexture("characters/goblin_run_spritesheet.png")};
     goblin.setTarget(&knight);
 
     SetTargetFPS(60);
@@ -47,7 +45,6 @@ int main()
         {
             prop.Render(knight.getWorldPos());
         }
-
 
         knight.tick(GetFrameTime());
 
@@ -67,6 +64,9 @@ int main()
         }
 
         goblin.tick(GetFrameTime());
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            goblin.setAlive(!CheckCollisionRecs(goblin.getCollisionRec(), knight.getWeaponCollisionRec()));
 
         EndDrawing();
     }

@@ -1,6 +1,6 @@
 #include "basecharacter.h"
 
-BaseCharacter::BaseCharacter(){}
+BaseCharacter::BaseCharacter() {}
 
 void BaseCharacter::undoMovement()
 {
@@ -10,7 +10,7 @@ void BaseCharacter::undoMovement()
 Rectangle BaseCharacter::getCollisionRec()
 {
     return Rectangle{
-        screenPos.x, screenPos.y, width * scale, height * scale};
+        getScreenPos().x, getScreenPos().y, width * scale, height * scale};
 }
 
 void BaseCharacter::tick(float deltatime)
@@ -26,7 +26,17 @@ void BaseCharacter::tick(float deltatime)
         frame = frame % maxFrames;
     }
 
-    Rectangle source{frame * width, 0.f, rightLeft * width, height};         // sprite from texture
-    Rectangle dest{screenPos.x, screenPos.y, scale * width, scale * height}; // location on the map
+    if (Vector2Length(velocity) != 0.)
+    {
+        worldPos += Vector2Scale(Vector2Normalize(velocity), speed);
+        rightLeft = velocity.x < 0.f ? -1.f : 1.f;
+        texture = run;
+    }
+    else
+        texture = idle;
+
+    velocity = {};
+    Rectangle source{frame * width, 0.f, rightLeft * width, height};                   // sprite from texture
+    Rectangle dest{getScreenPos().x, getScreenPos().y, scale * width, scale * height}; // location on the map
     DrawTexturePro(texture, source, dest, Vector2{}, 0.f, WHITE);
 }
