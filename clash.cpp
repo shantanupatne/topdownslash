@@ -1,12 +1,13 @@
 #include <iostream>
 #ifndef RAYMATH
+#define RAYMATH
 #include "raylib.h"
 #include "raymath.h"
-#define RAYMATH
 #endif
 
 #include "character.h"
 #include "prop.h"
+#include "enemy.h"
 
 int main()
 {
@@ -23,6 +24,14 @@ int main()
         Prop{Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png")},
         Prop{Vector2{200.f, 600.f}, LoadTexture("nature_tileset/Log.png")}};
 
+
+    Enemy goblin{
+        Vector2{}, 
+        LoadTexture("characters/goblin_idle_spritesheet.png"), 
+        LoadTexture("characters/goblin_run_spritesheet.png")
+    };
+    goblin.setTarget(&knight);
+
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -38,6 +47,8 @@ int main()
         {
             prop.Render(knight.getWorldPos());
         }
+
+
         knight.tick(GetFrameTime());
 
         // check map bounds
@@ -54,6 +65,8 @@ int main()
             if (CheckCollisionRecs(prop.getCollsionRec(knight.getWorldPos()), knight.getCollisionRec()))
                 knight.undoMovement();
         }
+
+        goblin.tick(GetFrameTime());
 
         EndDrawing();
     }
