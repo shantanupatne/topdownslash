@@ -57,7 +57,7 @@ int main()
         if (!knight.getAlive())
         {
             DrawRectangle(0., 0., win_size, win_size, Overlay);
-            DrawText("Game Over!", 25, 100, 40, BLACK);
+            DrawText("Game Over!", 25, 100, 40, WHITE);
             EndDrawing();
             continue;
         }
