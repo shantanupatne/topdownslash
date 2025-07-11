@@ -1,12 +1,12 @@
-#ifndef RAYMATH
+#pragma once
+
 #include "raylib.h"
 #include "raymath.h"
-#define RAYMATH
-#endif
 
 class Prop
 {
 public:
+    Prop(){};
     Prop(Vector2 pos, Texture2D tex);
     void Render(Vector2 knightPos);
     Rectangle getCollsionRec(Vector2 knightPos);

@@ -1,4 +1,4 @@
-
+#pragma once
 #include "includes/basecharacter.h"
 #include "includes/character.h"
 

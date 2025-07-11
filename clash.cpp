@@ -1,16 +1,14 @@
 #include <iostream>
-#ifndef RAYMATH
-#define RAYMATH
+#include <vector>
 #include "raylib.h"
 #include "raymath.h"
-#endif
 
 #include "includes/character.h"
 #include "includes/prop.h"
 #include "includes/enemy.h"
 
 Color Overlay = {0, 0, 0, 128};
-const int win_offset{32};
+const int win_offset{32}, SPAWNDIST_MAX{2600}, MAX_PROPS{25};
 int main()
 {
     const int win_size{384};
@@ -22,9 +20,21 @@ int main()
     float mapScale{4.f};
     Character knight{win_size, win_size};
 
-    Prop props[2]{
-        Prop{Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png")},
-        Prop{Vector2{200.f, 600.f}, LoadTexture("nature_tileset/Log.png")}};
+    Texture2D prop_textures[]{
+        LoadTexture("nature_tileset/Bush.png"),
+        LoadTexture("nature_tileset/Log.png"),
+        LoadTexture("nature_tileset/Rock.png"),
+        LoadTexture("nature_tileset/Sign.png")
+    };
+
+    Prop props[MAX_PROPS];
+    for (int i = 0; i<MAX_PROPS; i++) {
+        float rand_x = GetRandomValue(200, SPAWNDIST_MAX);
+        float rand_y = GetRandomValue(200, SPAWNDIST_MAX);
+        int type = GetRandomValue(0, 3);
+        
+        props[i] = Prop{Vector2{rand_x, rand_y}, prop_textures[type]};
+    }
 
     Enemy goblin{
         Vector2{800.f, 300.f},

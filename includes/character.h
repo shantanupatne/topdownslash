@@ -1,6 +1,4 @@
-
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 #include "includes/basecharacter.h"
 class Character : public BaseCharacter
 {
@@ -19,4 +17,3 @@ private:
     float health {100.f};
 };
 
-#endif

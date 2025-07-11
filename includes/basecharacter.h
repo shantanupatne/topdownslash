@@ -1,12 +1,8 @@
-#ifndef RAYMATH
-#define RAYMATH
+#pragma once
 #include "raylib.h"
 #include "raymath.h"
-#endif
 
-#ifndef BASECHAR_H
 
-#define BASECHAR_H
 class BaseCharacter
 {
 public:
@@ -32,4 +28,3 @@ private:
     bool alive{true};  
 };
 
-#endif
