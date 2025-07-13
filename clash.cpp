@@ -4,9 +4,9 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "includes/character.h"
-#include "includes/prop.h"
-#include "includes/enemy.h"
+#include "character.h"
+#include "prop.h"
+#include "enemyspawner.h"
 
 Color Overlay = {0, 0, 0, 128};
 const int win_size{384}, win_offset{32}, SPAWNDIST_MAX{2600}, MAX_PROPS{25};
@@ -33,17 +33,12 @@ private:
         LoadTexture("nature_tileset/Rock.png"),
         LoadTexture("nature_tileset/Sign.png")};
     Prop props[MAX_PROPS];
+    EnemySpawner spawner{
+        &knight, LoadTexture("characters/goblin_idle_spritesheet.png"), 
+        LoadTexture("characters/goblin_run_spritesheet.png"), 
+        LoadTexture("characters/slime_idle_spritesheet.png"), 
+        LoadTexture("characters/slime_run_spritesheet.png"), 20, 5};
 
-    Enemy goblin{
-        Vector2{0.f, 0.f},
-        LoadTexture("characters/goblin_idle_spritesheet.png"),
-        LoadTexture("characters/goblin_run_spritesheet.png"), &knight};
-    Enemy slime{
-        Vector2{0.f, 0.f},
-        LoadTexture("characters/slime_idle_spritesheet.png"),
-        LoadTexture("characters/slime_run_spritesheet.png"), &knight};
-
-    Enemy *enemies[2]{&goblin, &slime};
     int score{};
 
 public:
@@ -62,8 +57,7 @@ public:
     void Reset()
     {
         knight.Reset();
-        for (auto enemy : enemies)
-            enemy->Reset();
+        spawner.Reset();
         state = PLAYING;
         score = 0;
     }
@@ -93,10 +87,12 @@ public:
 
             if (state == PLAYING)
             {
+                knight.tick(deltatime);
+                spawner.tick(deltatime);
+                score = spawner.getScore();
                 DrawRectangle(0, win_size, win_size, win_offset, WHITE);
                 DrawText(TextFormat("Health: %.2f", knight.getHealth()), 10, win_size + 10, 20, BLACK);
-                knight.tick(GetFrameTime());
-
+                DrawText(TextFormat("Score: %i", score), 200, win_size + 10, 20, BLACK);
 
                 // check map bounds
                 if (knight.getWorldPos().x < 0.f ||
@@ -112,19 +108,6 @@ public:
                     if (CheckCollisionRecs(prop.getCollsionRec(knight.getWorldPos()), knight.getCollisionRec()))
                         knight.undoMovement();
                 }
-
-                for (auto enemy : enemies)
-                {
-                    enemy->tick(GetFrameTime());
-                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    {
-                        if (enemy->getAlive() && CheckCollisionRecs(enemy->getCollisionRec(), knight.getWeaponCollisionRec()))
-                        {
-                            enemy->setAlive(false);
-                            score += 10;
-                        }
-                    }
-                }
             }
             else
             {
@@ -136,6 +119,7 @@ public:
     }
 
     State getState() { return state; }
+    int getScore() {return score;}
 };
 
 
@@ -161,6 +145,8 @@ int main()
             const char *gameText = game.getState() == OVER ? "Game Over" : "Classy Clash!";
             DrawText(gameText, 25, 100, 40, WHITE);
             DrawText("Press [Enter] to play.", 25, 150, 20, WHITE);
+            if (game.getState() == OVER)
+                DrawText(TextFormat("Score: %i", game.getScore()), 25, 200, 20, WHITE);
             EndDrawing();
             continue;
         }

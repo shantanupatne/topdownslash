@@ -14,7 +14,7 @@ public:
     virtual void tick(float deltatime);
     bool getAlive() {return alive;}
     void setAlive(bool isAlive) {alive = isAlive;}
-    virtual void Reset() = 0;
+
 protected:
     Texture2D texture{LoadTexture("characters/knight_idle_spritesheet.png")};
     Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};

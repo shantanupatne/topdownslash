@@ -68,6 +68,6 @@ void Character::takeDamage(float damage) {
 void Character::Reset()
 {
     health = 100;
-    worldPos = {0, 0};
+    worldPos = {600.f, 600.f};
     setAlive(true);
 }

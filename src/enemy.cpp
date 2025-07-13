@@ -12,6 +12,7 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex, Character* char
     height = texture.height;
     speed = 3.5f;
     target = character;
+    setAlive(false);
 }
 
 void Enemy::tick(float deltatime)
@@ -31,8 +32,8 @@ Vector2 Enemy::getScreenPos()
 {
     return worldPos - target->getWorldPos();
 }
-void Enemy::Reset()
+void Enemy::Reset(Vector2 spawnPos)
 {
-    worldPos = {static_cast<float>(GetRandomValue(200, SPAWNDIST_MAX)), static_cast<float>(GetRandomValue(200, SPAWNDIST_MAX))};
-    setAlive(true);
+    worldPos = spawnPos;
+    setAlive(false);
 }
