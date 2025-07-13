@@ -9,6 +9,7 @@ Each enemy killed is 10 points. Enemies hurt you if they get close.
 
 ### Screenshots
 
+![game_imgs](images/slash_game.png)
 ![game_imgs](images/slash_game%20(2).png)
 ![game_imgs](images/slash_game%20(3).png)
 ![game_imgs](images/slash_game%20(1).png)
