@@ -9,7 +9,7 @@ public:
     Rectangle getWeaponCollisionRec() {return weaponCollisionRec;}
     float getHealth() const { return health; }
     void takeDamage(float damage);
-
+    virtual void Reset() override;
 private:
     int win_w{}, win_h{};
     Texture2D weapon{LoadTexture("characters/weapon_sword.png")};

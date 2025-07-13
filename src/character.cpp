@@ -1,4 +1,5 @@
 #include "includes/character.h"
+#include "character.h"
 
 Character::Character(int win_w, int win_h): win_w(win_w), win_h(win_h)
 {
@@ -63,4 +64,10 @@ void Character::tick(float deltatime)
 void Character::takeDamage(float damage) {
     health -= damage;
     if (health <= 0.f) setAlive(false);
+}
+void Character::Reset()
+{
+    health = 100;
+    worldPos = {0, 0};
+    setAlive(true);
 }

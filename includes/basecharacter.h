@@ -14,6 +14,7 @@ public:
     virtual void tick(float deltatime);
     bool getAlive() {return alive;}
     void setAlive(bool isAlive) {alive = isAlive;}
+    virtual void Reset() = 0;
 protected:
     Texture2D texture{LoadTexture("characters/knight_idle_spritesheet.png")};
     Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};
@@ -22,7 +23,7 @@ protected:
     Vector2 worldPos{}, worldPosLastFrame{}, velocity{};
 
     float rightLeft{1.f}, runningTime{}, height{}, width{}, updateTime{1.f / 12.f}, speed{4.f}, scale{4.f};
-    int frame{}, maxFrames{6}; 
+    int frame{}, maxFrames{6}, SPAWNDIST_MAX{2600}; 
 
 private:
     bool alive{true};  

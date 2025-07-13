@@ -1,4 +1,6 @@
 #include "includes/enemy.h"
+#include "enemy.h"
+
 
 Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex, Character* character)
 {
@@ -28,4 +30,9 @@ void Enemy::tick(float deltatime)
 Vector2 Enemy::getScreenPos()
 {
     return worldPos - target->getWorldPos();
+}
+void Enemy::Reset()
+{
+    worldPos = {static_cast<float>(GetRandomValue(200, SPAWNDIST_MAX)), static_cast<float>(GetRandomValue(200, SPAWNDIST_MAX))};
+    setAlive(true);
 }
